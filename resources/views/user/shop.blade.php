@@ -166,14 +166,14 @@
                             <div class="product-img position-relative overflow-hidden">
                                 <img class="w-100 catgoryImg" src="{{asset('storage/category/'.$category->image)}}" alt="">
                                 <div class="product-action">
-                                    {{-- <a class="btn btn-outline-dark btn-square addToCast"  href="" title="add to cart"><i class="fa fa-shopping-cart"></i></a> --}}
+                                    <a class="btn btn-outline-dark btn-square addToCast" onclick="addFavLocalStorage({{$category->id}})"  href="" title="add to favourite"><i class="fa-regular fa-heart"></i></a>
                                     
                                     <a class="btn btn-outline-dark btn-square" title="more" href="{{url('user/detail/'.$category->id)}}"><i class="fa-solid fa-angle-right"></i></i></a>
                                     
                                 </div>
                             </div>
                             <div class="text-center py-4">
-                                <a class="h6 text-decoration-none text-truncate" href="">{{$category->name}}</a>
+                                <a class="h6 text-decoration-none text-truncate" href="{{url('user/detail/'.$category->id)}}">{{$category->name}}</a>
                                 <div class="d-flex align-items-center justify-content-center mt-2">
                                     <h5>{{$category->price}}MMK</h5><h6 class="text-muted ml-2"><del>{{$category->price_from.'MMK'}}</del></h6>
                                 </div>
@@ -213,7 +213,7 @@
         });
         $('.addFav').click(function (e) {
             e.preventDefault(e);
-
+            
         });
     </script>
 @endpush

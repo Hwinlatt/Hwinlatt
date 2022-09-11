@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\HistoryController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\User\CartController;
+use App\Http\Controllers\User\FavouriteController;
 use App\Http\Controllers\User\OrderController;
 use App\Http\Controllers\User\ShopController;
 use App\Http\Controllers\User\UserOrderController;
@@ -36,6 +37,8 @@ Route::get('user/detail/{id}',[ShopController::class,'detail']);
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/favourite',[FavouriteController::class,'index'])->name('favourite');
+Route::get('FavItems',[FavouriteController::class,'getItems'])->name('fav_items');
 
 Route::middleware(['auth'])->prefix('user')->group(function () {
     Route::post('addto_cart',[CartController::class,'insert'])->name('addToCart');

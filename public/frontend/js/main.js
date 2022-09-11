@@ -1,8 +1,11 @@
+
 (function ($) {
     "use strict";
 
     // Dropdown on mouse hover
     $(document).ready(function () {
+        
+        getFavCount();
         function toggleNavbarMethod() {
             if ($(window).width() > 992) {
                 $('.navbar .dropdown').on('mouseover', function () {
@@ -19,6 +22,7 @@
         $('.input-text').attr('readonly',true);
         $('.input-text').attr('size','9')
 
+        
     });
 
 
@@ -150,6 +154,40 @@ let totalBill = (input,to) => {
     })
     $(to).html(bill);
 }
+
+let addFavLocalStorage = (id) => {
+    
+    let favs = JSON.parse(localStorage.getItem('fav'));
+    if (favs != null) {
+        for (let i = 0; i < favs.length; i++) {
+            if (favs[i] == id) {
+                Swal.fire(
+                    'Error!',
+                    'Already Exists in Favourite!',
+                    'error'
+                  )
+                return;
+            }
+        }
+    }else{
+         favs = [];
+    }
+    favs.push(id);
+    localStorage.setItem('fav',JSON.stringify(favs));
+    Swal.fire(
+        'Success!',
+        'Add to Favourite Successful.',
+        'success'
+      )
+    getFavCount();
+}
+
+
+    //Get favourite list
+    let getFavCount = () => {
+        let favs = JSON.parse(localStorage.getItem('fav'));
+            favs ? $('.favCount').html(favs.length):'';
+    }
 
 
 

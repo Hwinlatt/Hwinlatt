@@ -100,9 +100,9 @@
                     </div> --}}
                 </div>
                 <div class="d-inline-flex align-items-center d-block d-lg-none">
-                    <a href="" class=" px-0 ml-2">
+                    <a href="{{route('favourite')}}" class=" px-0 ml-2">
                         <i class="fas fa-heart text-dark"></i>
-                        <span class="badge text-dark border border-dark rounded-circle"
+                        <span  class="badge text-dark border border-dark rounded-circle favCount"
                             style="padding-bottom: 2px;">0</span>
                     </a>
                     <a href="{{ route('carts') }}" class=" px-0 ml-2">
@@ -220,9 +220,9 @@
                             @endif
                         </div>
                         <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
-                            <a href="" class=" px-0">
+                            <a href="{{route('favourite')}}" class=" px-0">
                                 <i class="fas fa-heart text-primary"></i>
-                                <span class="badge text-secondary border border-secondary rounded-circle"
+                                <span class="badge text-secondary border border-secondary rounded-circle favCount"
                                     style="padding-bottom: 2px;">0</span>
                             </a>
                             <a href="{{ route('carts') }}" class="px-0 ml-3">
@@ -362,6 +362,7 @@
     <script src="{{ asset('sweetalert2/dist/sweetalert2.min.js') }}"></script>
 
     <script src="{{ asset('frontend/js/main.js') }}"></script>
+    @if(!empty(Auth::user()))
     <script>
         let countCart = () => {
             let _token = '{{ csrf_token() }}';
@@ -383,6 +384,8 @@
             countCart();
         }, 1000);
     </script>
+    @endif
+   
     @stack('scripts')
 </body>
 

@@ -1,12 +1,11 @@
-@extends('layouts.app')
-@section('contents')
+@extends('layouts.app') @section('contents')
     <!-- Breadcrumb Start -->
     <div class="container-fluid">
         <div class="row px-xl-5">
             <div class="col-12">
                 <nav class="breadcrumb bg-light mb-30">
-                    <a class="breadcrumb-item text-dark" href="{{route('home')}}">Home</a>
-                    <a class="breadcrumb-item text-dark" href="{{route('shop')}}">Shop</a>
+                    <a class="breadcrumb-item text-dark" href="{{ route('home') }}">Home</a>
+                    <a class="breadcrumb-item text-dark" href="{{ route('shop') }}">Shop</a>
                     <span class="breadcrumb-item active">Shop Detail</span>
                 </nav>
             </div>
@@ -21,17 +20,17 @@
                     <div class="carousel-inner bg-light">
                         <div class="carousel-item active">
                             <img class="w-100 h-100" src="{{ asset('storage/category/' . $category->image) }}"
-                                alt="Image">
+                                alt="Image" />
                         </div>
                         {{-- <div class="carousel-item">
-                                <img class="w-100 h-100" src="img/product-2.jpg" alt="Image">
-                            </div>
-                            <div class="carousel-item">
-                                <img class="w-100 h-100" src="img/product-3.jpg" alt="Image">
-                            </div>
-                            <div class="carousel-item">
-                                <img class="w-100 h-100" src="img/product-4.jpg" alt="Image">
-                            </div> --}}
+                        <img class="w-100 h-100" src="img/product-2.jpg" alt="Image" />
+                    </div>
+                    <div class="carousel-item">
+                        <img class="w-100 h-100" src="img/product-3.jpg" alt="Image" />
+                    </div>
+                    <div class="carousel-item">
+                        <img class="w-100 h-100" src="img/product-4.jpg" alt="Image" />
+                    </div> --}}
                     </div>
                     <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
                         <i class="fa fa-2x fa-angle-left text-dark"></i>
@@ -44,6 +43,16 @@
 
             <div class="col-lg-7 h-auto mb-30">
                 <div class="h-100 bg-light p-30">
+                    <div class="text-end">
+                        <button class="btn btn-outline-dark" title="Add Favourite"
+                            onclick="addFavLocalStorage({{ $category->id }})">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
+                        <button class="btn btn-primary" title="Remove Favourite"
+                            onclick="removeFavLocalStorage({{ $category->id }})">
+                            <i class="fa-solid fa-heart"></i>
+                        </button>
+                    </div>
                     <h3>{{ $category->name }}</h3>
                     <div class="d-flex mb-3">
                         <div class="text-primary mr-2">
@@ -55,47 +64,54 @@
                         </div>
                         <small class="pt-1">(99 Reviews)</small>
                     </div>
-                    <h3 class="font-weight-semi-bold mb-4">{{ $category->price }} MMK</h3>
-                    <p class="mb-4">{{ Str::substr($category->description, 0, 200) }}...</p>
+                    <h3 class="font-weight-semi-bold mb-4">
+                        {{ $category->price }} MMK
+                    </h3>
+                    <p class="mb-4">
+                        {{ Str::substr($category->description, 0, 200) }}...
+                    </p>
                     <div class="d-flex mb-3">
                         <strong class="text-dark mr-3">Sizes:</strong>
                         {{-- <form>
-                            <div class="custom-control custom-radio custom-control-inline">
-                                <input type="radio" class="custom-control-input" id="size-1" name="size">
-                                <label class="custom-control-label" for="size-1">XS</label>
-                            </div>
-                            <div class="custom-control custom-radio custom-control-inline">
-                                <input type="radio" class="custom-control-input" id="size-2" name="size">
-                                <label class="custom-control-label" for="size-2">S</label>
-                            </div>
-                            <div class="custom-control custom-radio custom-control-inline">
-                                <input type="radio" class="custom-control-input" id="size-3" name="size">
-                                <label class="custom-control-label" for="size-3">M</label>
-                            </div>
-                            <div class="custom-control custom-radio custom-control-inline">
-                                <input type="radio" class="custom-control-input" id="size-4" name="size">
-                                <label class="custom-control-label" for="size-4">L</label>
-                            </div>
-                            <div class="custom-control custom-radio custom-control-inline">
-                                <input type="radio" class="custom-control-input" id="size-5" name="size">
-                                <label class="custom-control-label" for="size-5">XL</label>
-                            </div>
-                        </form> --}}
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="size-1" name="size" />
+                            <label class="custom-control-label" for="size-1">XS</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="size-2" name="size" />
+                            <label class="custom-control-label" for="size-2">S</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="size-3" name="size" />
+                            <label class="custom-control-label" for="size-3">M</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="size-4" name="size" />
+                            <label class="custom-control-label" for="size-4">L</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="size-5" name="size" />
+                            <label class="custom-control-label" for="size-5">XL</label>
+                        </div>
+                    </form> --}}
                     </div>
                     <div class="d-flex mb-4">
                         <strong class="text-dark mr-3">Colors:</strong>
                         <div class="categoryColors">
                             @foreach (explode(',', $category->colors) as $color)
                                 <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" @if($loop->first) checked @endif class="custom-control-input" value="{{$color}}" id="color-{{$loop->index}}"
-                                        name="color">
-                                    <label class="custom-control-label" for="color-{{$loop->index}}">{{ucfirst($color)}}</label>
+                                    <input type="radio" @if ($loop->first) checked @endif
+                                        class="custom-control-input" value="{{ $color }}"
+                                        id="color-{{ $loop->index }}" name="color">
+                                    <label class="custom-control-label"
+                                        for="color-{{ $loop->index }}">{{ ucfirst($color) }}</label>
                                 </div>
                             @endforeach
                         </div>
                     </div>
                     <div class="d-flex mb-4">
-                        <strong class="text-dark mr-3">Remain Qty:</strong> <span class="">{{ $category->qty }}</span>
+                        <strong class="text-dark mr-3">Remain Qty:</strong>
+                        <span class="">{{ $category->qty }}</span>
                     </div>
                     <div class="d-flex mb-4">
                         @if ($category->available == '1')
@@ -103,38 +119,35 @@
                         @else
                             <span class="badge badge-danger">Out of Stock</span>
                         @endif
-
                     </div>
                     <div class="d-flex align-items-center mb-4 pt-2">
                         @if ($category->available == '1' && $category->qty > '0')
-                        <div class="input-group quantity mr-3" style="width: 130px;">
-                            <span class="rmNumber d-none">{{ $category->qty }}</span>
+                            <div class="input-group quantity mr-3" style="width: 130px">
+                                <span class="rmNumber d-none">{{ $category->qty }}</span>
 
-                            <div class="input-group-btn">
-                                <button class="btn btn-primary btn-minus">
-                                    <i class="fa fa-minus"></i>
-                                </button>
+                                <div class="input-group-btn">
+                                    <button class="btn btn-primary btn-minus">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                </div>
+                                <input type="text" class="form-control bg-secondary border-0 text-center"
+                                    value="1" />
+                                <div class="input-group-btn">
+                                    <button class="btn btn-primary addMoreBtn btn-plus">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
                             </div>
-                            <input type="text" class="form-control bg-secondary border-0 text-center" value="1">
-                            <div class="input-group-btn">
-                                <button class="btn btn-primary addMoreBtn btn-plus">
-                                    <i class="fa fa-plus"></i>
-                                </button>
-                            </div>
-                        </div>
                             @if (Auth::user())
-                                <button cid="{{ $category->id }}" class="btn btn-primary px-3 addToCart"><i
-                                        class="fa fa-shopping-cart mr-1"></i> Add To
-                                    Cart</button>
+                                <button cid="{{ $category->id }}" class="btn btn-primary px-3 addToCart">
+                                    <i class="fa fa-shopping-cart mr-1"></i> Add To Cart
+                                </button>
                             @else
                                 <a href="{{ route('login') }}" class="btn btn-primary px-3"><i
-                                        class="fa fa-shopping-cart mr-1"></i> Add To
-                                    Cart</a>
+                                        class="fa fa-shopping-cart mr-1"></i> Add To Cart</a>
                             @endif
                         @endif
-
                     </div>
-
 
                     <div class="d-flex pt-2">
                         <strong class="text-dark mr-2">Share on:</strong>
@@ -160,15 +173,15 @@
             <div class="col">
                 <div class="bg-light p-30">
                     <div class="nav nav-tabs mb-4">
-                        <a class="nav-item nav-link text-dark active" data-toggle="tab" href="#tab-pane-1">Description</a>
-                        <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-2">Information</a>
-                        <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-3">Reviews (0)</a>
+                        <a class="nav-item nav-link text-dark active" data-toggle="tab"
+                            href="#tab-pane-1">Description</a>
+                        <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-3">Reviews
+                            ({{ $totalComment }})</a>
                     </div>
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="tab-pane-1">
                             <h4 class="mb-3">Product Description</h4>
                             <p>
-
                                 @php
                                     $details = explode('|', $category->description);
                                     foreach ($details as $detail) {
@@ -177,104 +190,37 @@
                                         for ($i = 1; $i < count($tests); $i++) {
                                             $echoText .= $tests[$i];
                                         }
-                                        echo $echoText . '<br>';
-                                    }
-                                @endphp
-                            </p>
+                                        echo $echoText . '<br />';
+                                } @endphp </p>
                         </div>
-                        <div class="tab-pane fade" id="tab-pane-2">
-                            <h4 class="mb-3">Additional Information</h4>
-                            <p>Eos no lorem eirmod diam diam, eos elitr et gubergren diam sea. Consetetur vero aliquyam
-                                invidunt duo dolores et duo sit. Vero diam ea vero et dolore rebum, dolor rebum eirmod
-                                consetetur invidunt sed sed et, lorem duo et eos elitr, sadipscing kasd ipsum rebum diam.
-                                Dolore diam stet rebum sed tempor kasd eirmod. Takimata kasd ipsum accusam sadipscing, eos
-                                dolores sit no ut diam consetetur duo justo est, sit sanctus diam tempor aliquyam eirmod
-                                nonumy rebum dolor accusam, ipsum kasd eos consetetur at sit rebum, diam kasd invidunt
-                                tempor lorem, ipsum lorem elitr sanctus eirmod takimata dolor ea invidunt.</p>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item px-0">
-                                            Sit erat duo lorem duo ea consetetur, et eirmod takimata.
-                                        </li>
-                                        <li class="list-group-item px-0">
-                                            Amet kasd gubergren sit sanctus et lorem eos sadipscing at.
-                                        </li>
-                                        <li class="list-group-item px-0">
-                                            Duo amet accusam eirmod nonumy stet et et stet eirmod.
-                                        </li>
-                                        <li class="list-group-item px-0">
-                                            Takimata ea clita labore amet ipsum erat justo voluptua. Nonumy.
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="col-md-6">
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item px-0">
-                                            Sit erat duo lorem duo ea consetetur, et eirmod takimata.
-                                        </li>
-                                        <li class="list-group-item px-0">
-                                            Amet kasd gubergren sit sanctus et lorem eos sadipscing at.
-                                        </li>
-                                        <li class="list-group-item px-0">
-                                            Duo amet accusam eirmod nonumy stet et et stet eirmod.
-                                        </li>
-                                        <li class="list-group-item px-0">
-                                            Takimata ea clita labore amet ipsum erat justo voluptua. Nonumy.
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                        <!--Comment Section -->
                         <div class="tab-pane fade" id="tab-pane-3">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <h4 class="mb-4">1 review for "Product Name"</h4>
-                                    <div class="media mb-4">
-                                        <img src="" alt="Image" class="img-fluid mr-3 mt-1"
-                                            style="width: 45px;">
-                                        <div class="media-body">
-                                            <h6>John Doe<small> - <i>01 Jan 2045</i></small></h6>
-                                            <div class="text-primary mb-2">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
-                                                <i class="far fa-star"></i>
-                                            </div>
-                                            <p>Diam amet duo labore stet elitr ea clita ipsum, tempor labore accusam ipsum
-                                                et no at. Kasd diam tempor rebum magna dolores sed sed eirmod ipsum.</p>
-                                        </div>
+                                    <h4 class="mb-4">
+                                        {{ $totalComment }} reviews
+                                    </h4>
+                                    <div id="cmtContainer">
+                                        <!-- ... -->
                                     </div>
                                 </div>
+
                                 <div class="col-md-6">
                                     <h4 class="mb-4">Leave a review</h4>
-                                    <small>Your email address will not be published. Required fields are marked *</small>
                                     <div class="d-flex my-3">
                                         <p class="mb-0 mr-2">Your Rating * :</p>
-                                        <div class="text-primary">
-                                            <i class="far fa-star"></i>
-                                            <i class="far fa-star"></i>
-                                            <i class="far fa-star"></i>
-                                            <i class="far fa-star"></i>
-                                            <i class="far fa-star"></i>
-                                        </div>
+                                        <div class="text-primary ratingStarsContainer"></div>
                                     </div>
-                                    <form>
+                                    <form id="insertCommentForm" action="{{ route('insert_Cmt') }}">
                                         <div class="form-group">
                                             <label for="message">Your Review *</label>
                                             <textarea id="message" cols="30" rows="5" class="form-control"></textarea>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="name">Your Name *</label>
-                                            <input type="text" class="form-control" id="name">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="email">Your Email *</label>
-                                            <input type="email" class="form-control" id="email">
-                                        </div>
+                                        <input class="ratingInput d-none" type="range" min="1" max="5"
+                                            class="d-none" value="5" />
                                         <div class="form-group mb-0">
-                                            <input type="submit" value="Leave Your Review" class="btn btn-primary px-3">
+                                            <input type="submit" value="Leave Your Review"
+                                                class="btn btn-primary px-3" />
                                         </div>
                                     </form>
                                 </div>
@@ -285,14 +231,136 @@
             </div>
         </div>
     </div>
+
     <!-- Shop Detail End -->
-@endsection
-@push('scripts')
+    @endsection @push('scripts')
     <script>
+        let _token = '{{ csrf_token() }}';
+        let commentAmout = 5;
         $(document).ready(function() {
             $('.shopDetail').addClass('active')
+            FavIconChange('{{ $category->id }}');
+            ratingStarsChange($('.ratingInput').val());
+            getPreviewCommets();
+            $('#insertCommentForm').submit(function(e) {
+                e.preventDefault();
+                cId = '{{ $category->id }}';
+                comment = $(this).find('textarea').val();
+                rating = $(this).find('.ratingInput').val();
+                if ('{{ empty(Auth::user()) }}') {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Please Login First!',
+                        footer: '<a href="{{ route('login') }}">Login Now</a>'
+                    })
+                    return;
+                }
+                console.log('submiting');
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('insert_Cmt') }}",
+                    data: {
+                        cId,
+                        comment,
+                        rating,
+                        _token
+                    },
+                    dataType: "JSON",
+                    success: function(data) {
+                        if (data.errors) {
+                            let errors = "";
+                            for (let i = 0; i < data.errors.length; i++) {
+                                errors += data.errors[i];
+                            }
+                            Swal.fire('Error!', errors, 'error')
+                        }
+                        if (data.success) {
+                            Swal.fire('Success', 'Commented successful.', 'success');
+                            $('#insertCommentForm textarea').val('');
+                            $('#insertCommentForm ratingInput').val(5);
+                            ratingStarsChange(5);
+                            getPreviewCommets();
+                        }
+                    }
 
+                });
+            });
         });
+
+        //Change Raing Value
+        let changeRatingVal = (int) => {
+            $('.ratingInput').val(int);
+            ratingStarsChange(int);
+        }
+
+        //Change Star When Click
+        let ratingStarsChange = (int) => {
+            $stars = '';
+            for (let i = 1; i < 6; i++) {
+                if (i <= int) {
+                    $stars += `<i onclick="changeRatingVal(${i})" class="fa-solid fa-star"></i>`;
+                } else {
+                    $stars += `<i onclick="changeRatingVal(${i})" class="far fa-star"></i>`;
+                }
+            }
+            $('.ratingStarsContainer').html($stars);
+        }
+        //MoreComment Load 
+        let moreComment = () => {
+            commentAmout += 5;
+            getPreviewCommets();
+        }
+        //Show Less Comments Load
+        let showLessComment = () => {
+            commentAmout = 5;
+            getPreviewCommets();
+        }
+        //DeleteComment
+        let deleteCommet = (id) => {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ route('del_comment') }}",
+                        data: {
+                            id,
+                            _token
+                        },
+                        dataType: "JSON",
+                        success: function(data) {
+                            if (data == '1') {
+                                Swal.fire('Success!', 'Comment is successfully deleted', 'success');
+                                getPreviewCommets();
+                            }
+                        }
+                    });
+                }
+            })
+
+        }
+        //Get Comment From DataBase
+        let getPreviewCommets = () => {
+            $('#cmtContainer').load(`{{ route('pre_comments', $category->id) }}?amount=${commentAmout}`)
+        }
+        let removeFavLocalStorage = (id) => {
+            let favs = JSON.parse(localStorage.getItem('fav'));
+            if (favs != null) {
+                favs = favs.filter((e) => e != id);
+                localStoreFavChange(favs);
+                Swal.fire('Removed', 'Remove From Favourite Success', 'success')
+            }
+            FavIconChange('{{ $category->id }}');
+        }
+
         $('.addToCart').click(function(e) {
             e.preventDefault();
             let color = $(".categoryColors input[type='radio']:checked").val();

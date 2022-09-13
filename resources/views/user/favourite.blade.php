@@ -39,14 +39,24 @@
         });
 
         let removeFavLocalStorage = (id) => {
-                let favs = JSON.parse(localStorage.getItem('fav'));
-                if (favs != null) {
-                    favs = favs.filter((e) => e != id);
-                    localStorage.setItem('fav',JSON.stringify(favs));
-                    getFavCount();
-                }
-                getFavItems();
+            let favs = JSON.parse(localStorage.getItem('fav'));
+            if (favs != null) {
+                favs = favs.filter((e) => e != id);
+                localStoreFavChange(favs);
+                Swal.fire('Removed', 'Remove From Favourite Success', 'success')
             }
+            getFavItems();
+        }
+
+        let checkFavLocalAndServe = (index1) => {
+            let favs = JSON.parse(localStorage.getItem('fav'));
+            if (favs != null) {
+                favs = favs.filter((e, index) => index != index1);
+                localStoreFavChange(favs)
+            }
+            getFavItems();
+        }
+
 
         let getFavItems = () => {
             let favs = localStorage.getItem('fav');
@@ -58,20 +68,24 @@
                 },
                 dataType: "JSON",
                 success: function(data) {
-                    console.log(data);
                     $tableData = '';
                     if (data.length > 0) {
                         for (let i = 0; i < data.length; i++) {
-                            $tableData += `<tr>
-                        <td class="text-start"><img src="{{ asset('storage/category/`+data[i].image+`') }}" alt="" style="width: 50px;">${data[i].name}</td>
+                            if (data[i] != null) {
+                                $tableData += `<tr>
+                        <td class="text-start"><a class="text-dark" href="{{url('user/detail/`+data[i].id+`')}}"><img src="{{ asset('storage/category/`+data[i].image+`') }}" alt="" style="width: 50px;">${data[i].name}</a></td>
                         <td class="align-middle">${data[i].price}</td>
                         <td class="align-middle">${data[i].type}</td>
                         <td class="align-middle"><button class="btn btn-sm btn-danger" onclick="removeFavLocalStorage(${data[i].id})"><i class="fa fa-times"></i></button></td>
-                    </tr>`
+                            </tr>`;
+                            } else {
+                                checkFavLocalAndServe(i);
+                            }
                         }
-                        
-                    }else{
-                        $tableData = 'The is No Favourite <a class="btn btn-primary my-3" href="{{route("shop")}}">Go to Shop<a>'
+
+                    } else {
+                        $tableData =
+                            'The is No Favourite <a class="btn btn-primary ms-2 my-3" href="{{ route('shop') }}">Go to Shop<a>'
                     }
                     $('#FavTableBody').html($tableData);
                 }

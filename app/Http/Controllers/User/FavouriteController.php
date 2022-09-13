@@ -15,6 +15,7 @@ class FavouriteController extends Controller
 
     public function getItems()
     {
+        
         $fav_items = [];
         $ids = json_decode(request('favs'));
         for ($i=0; $i < count($ids); $i++) { 
@@ -22,5 +23,10 @@ class FavouriteController extends Controller
             array_push($fav_items,$cat);
         }
         return response()->json($fav_items);
+    }
+
+    public function hello()
+    {
+        
     }
 }

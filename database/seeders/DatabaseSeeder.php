@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\OrderStatus;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -17,5 +18,9 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         $this->call([CategorySeeder::class]);
+
+        OrderStatus::create([
+
+        ]);
     }
 }

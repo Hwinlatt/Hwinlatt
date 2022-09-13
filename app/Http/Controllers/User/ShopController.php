@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 
 class ShopController extends Controller
@@ -16,7 +17,9 @@ class ShopController extends Controller
     public function detail($id)
     {
         $category = Category::find($id);
-        return view('user.shopdetail',compact('category'));
+        $totalComment = Comment::where('c_id',$id)->count();
+
+        return view('user.shopdetail',compact('category','totalComment'));
     }
     public function category($key)
     {

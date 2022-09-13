@@ -10,10 +10,12 @@ use App\Http\Controllers\Admin\HistoryController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\User\CartController;
+use App\Http\Controllers\User\CommentController;
 use App\Http\Controllers\User\FavouriteController;
 use App\Http\Controllers\User\OrderController;
 use App\Http\Controllers\User\ShopController;
 use App\Http\Controllers\User\UserOrderController;
+use App\Models\Comment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 /*
@@ -32,14 +34,15 @@ Route::get('shop',[ShopController::class,'index'])->name('shop');
 Route::get('shop/category/{key}',[ShopController::class,'category']);
 Route::post('shop/category/search',[ShopController::class,'search'])->name('userSearchCat');
 Route::post('countcat',[CartController::class,'count']);
-Route::get('user/detail/{id}',[ShopController::class,'detail']);
+Route::get('user/detail/{id}',[ShopController::class,'detail'])->name('detail');
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/favourite',[FavouriteController::class,'index'])->name('favourite');
-Route::get('FavItems',[FavouriteController::class,'getItems'])->name('fav_items');
+Route::get('comments/preview/{id}',[CommentController::class,'preview'])->name('pre_comments');
 
+Route::get('FavItems',[FavouriteController::class,'getItems'])->name('fav_items');
 Route::middleware(['auth'])->prefix('user')->group(function () {
     Route::post('addto_cart',[CartController::class,'insert'])->name('addToCart');
     Route::get('carts',[CartController::class,'index'])->name('carts');
@@ -50,6 +53,8 @@ Route::middleware(['auth'])->prefix('user')->group(function () {
     Route::post('order-received',[OrderController::class,'received'])->name('user#order_received');
     Route::get('myorder',[UserOrderController::class,'index'])->name('myorder');
     Route::get('myorder/{oid}',[UserOrderController::class,'order_info']);
+    Route::post('insert_comment',[CommentController::class,'insert'])->name('insert_Cmt');
+    Route::post('del_comment',[CommentController::class,'destroy'])->name('del_comment');
 });
 
 
